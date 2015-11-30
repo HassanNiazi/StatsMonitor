@@ -5,9 +5,20 @@
 	<meta charset="utf-8" />
 </head>
 <body>
-    <div id="stats">
-        
-    </div>
+<table>
+    <tr>
+        <th>CPU Load</th>
+        <th>CPU Freq</th>
+        <th>CPU Temp</th>
+        <th>Ram</th>
+    </tr>
+    <tr>
+        <td><span id="cL"></span></td>
+        <td><span id="cF"></span></td>
+        <td><span id="cT"></span></td>
+        <td><span id="r"></span></td>
+    </tr>
+</table>
     <script src="Scripts/jquery-1.9.1.min.js"></script>
     <script src="Scripts/jquery.signalR-2.2.0.min.js"></script>
     <script src="signalr/hubs"></script>

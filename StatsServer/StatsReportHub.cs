@@ -15,7 +15,7 @@ namespace StatsServer
         public void ReportStats(int cpuLoad, int cpuFreq, int cpuTemp, int ram)
         {
             GlobalHost.ConnectionManager.GetHubContext<StatsHub>()
-                .Clients.All()
+                .Clients.All
                 .sendStats(cpuLoad, cpuFreq, cpuTemp, ram);
         }
     }

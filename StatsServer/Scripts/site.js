@@ -2,7 +2,11 @@
 
 $.extend(hub.client, {
     sendStats: function (cpuLoad, cpuFreq, cpuTemp, ram) {
-        console.log(cpuLoad, cpuFreq, cpuTemp, ram);
+        //console.log(cpuLoad, cpuFreq, cpuTemp, ram);
+        $("#cL").text(cpuLoad);
+        $("#cF").text(cpuFreq);
+        $("#cT").text(cpuTemp);
+        $("#r").text(ram);
     }
 });
 
