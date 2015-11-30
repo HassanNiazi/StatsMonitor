@@ -25,8 +25,8 @@ namespace DesktopClient
         private readonly StatsView _statsView;
 
         private readonly PerformanceCounter _perfCountCpuLoad = new PerformanceCounter("Processor Information", "% Processor Time", "_Total");
-        private readonly PerformanceCounter _perfCountCpuTemp = new PerformanceCounter("Thermal Zone Information", "Temperature", @"\_TZ.TZS0");
-        private readonly PerformanceCounter _perfCountSysMem = new PerformanceCounter("Memory", "Available MBytes");
+        private readonly PerformanceCounter _perfCountCpuTemp = new PerformanceCounter("Thermal Zone Information", "Temperature", @"\_TZ.THM");
+        private readonly PerformanceCounter _perfCountSysMem = new PerformanceCounter("Memory", "% Committed Bytes In Use");
         private readonly PerformanceCounter _perfCountFreq = new PerformanceCounter("Processor Information", "Processor Frequency", "_Total");
 
         private readonly DispatcherTimer _dispatcherTimer = new DispatcherTimer();
@@ -38,7 +38,7 @@ namespace DesktopClient
             _statsView = (StatsView)DataContext;
             Left = SystemParameters.PrimaryScreenWidth - Width;
 
-            _dispatcherTimer.Interval = TimeSpan.FromMilliseconds(1200);
+            _dispatcherTimer.Interval = TimeSpan.FromMilliseconds(1000);
             _dispatcherTimer.Tick += _dispatcherTimer_Tick;
             _dispatcherTimer.Start();
 
