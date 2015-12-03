@@ -12,11 +12,11 @@ namespace StatsServer
     public class StatsReportHub:Hub
     {
         [HubMethodName("reportStats")]
-        public void ReportStats(int cpuLoad, int cpuFreq, int cpuTemp, int ram)
+        public void ReportStats(string specs,int cpuLoad, int cpuFreq, int cpuTemp, int ram)
         {
             GlobalHost.ConnectionManager.GetHubContext<StatsHub>()
                 .Clients.All
-                .sendStats(cpuLoad, cpuFreq, cpuTemp, ram);
+                .sendStats(specs,cpuLoad, cpuFreq, cpuTemp, ram);
         }
     }
 }

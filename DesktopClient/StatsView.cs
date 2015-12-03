@@ -6,10 +6,13 @@ using System.Windows.Threading;
 using DesktopClient.Annotations;
 using Microsoft.AspNet.SignalR.Client;
 
+
 namespace DesktopClient
 {
     public class StatsView : INotifyPropertyChanged
     {
+        private int _retries = 3;
+
         private readonly PerformanceCounter _perfCountCpuLoad = new PerformanceCounter("Processor Information", "% Processor Time", "_Total");
         private readonly PerformanceCounter _perfCountCpuTemp = new PerformanceCounter("Thermal Zone Information", "Temperature", @"\_TZ.THM");
         private readonly PerformanceCounter _perfCountSysMem = new PerformanceCounter("Memory", "% Committed Bytes In Use");
@@ -37,8 +40,22 @@ namespace DesktopClient
             }
         }
 
+        private string _specs;
+
+        public string Specs
+        {
+            get { return _specs; }
+            set
+            {
+                _specs = value;
+                OnPropertyChanged();
+            }
+        }
+
         public StatsView()
         {
+            Specs = $"{Environment.UserName}@{Environment.MachineName}";
+
             _dispatcherTimer.Interval = TimeSpan.FromMilliseconds(1000);
             _dispatcherTimer.Tick += _dispatcherTimer_Tick;
             _dispatcherTimer.Start();
@@ -68,7 +85,11 @@ namespace DesktopClient
             _dispatcherTimer.Start();
             if (_connected)
             {
-                _hubProxy.Invoke("reportStats", stats.CpuLoad, stats.CpuFreq, stats.CpuTemp, stats.Ram);
+                _hubProxy.Invoke("reportStats", Specs ,stats.CpuLoad, stats.CpuFreq, stats.CpuTemp, stats.Ram);
+            }
+            else if (_retries-- != 0)
+            {
+                Connect();
             }
         }
 
