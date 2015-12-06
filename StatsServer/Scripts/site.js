@@ -1,11 +1,18 @@
 ﻿var hub = $.connection.statsHub;
 
 $.extend(hub.client, {
-    sendStats: function (specs,cpuLoad, cpuFreq, ram) {
-        $("#s").text(specs);
-        $("#cL").text(cpuLoad + '%');
-        $("#cF").text(cpuFreq + 'MHz');
-        $("#r").text(ram + '%');
+    updateStats: function (id, specs, cpuLoad, cpuFreq, ram) {
+        if ($("#" + id).length) {
+            $("#" + id).html("<td>" + specs + "</td><td>" + cpuLoad + "</td><td>" + cpuFreq + "</td><td>" + ram + "</td>")
+        } else {
+            $("#tbl").append("<tr id='" + id + "'><td>" + specs + "</td><td>" + cpuLoad + "</td><td>" + cpuFreq + "</td><td>" + ram + "</td>");
+        }
+            
+    },
+    removeStats: function(id) {
+        if ($("#" + id).length) {
+            $("#" + id).remove();
+        }
     }
 });
 
