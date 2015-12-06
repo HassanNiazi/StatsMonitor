@@ -16,7 +16,13 @@ namespace StatsServer
         {
             GlobalHost.ConnectionManager.GetHubContext<StatsHub>()
                 .Clients.All
-                .sendStats(specs,cpuLoad, cpuFreq, ram);
+                .updateStats(Context.ConnectionId,specs, cpuLoad, cpuFreq, ram);
+        }
+
+        public override Task OnDisconnected(bool stopCalled)
+        {
+            GlobalHost.ConnectionManager.GetHubContext<StatsHub>().Clients.All.removeStats(Context.ConnectionId);
+            return base.OnDisconnected(stopCalled);
         }
     }
 }
