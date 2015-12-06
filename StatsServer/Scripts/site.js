@@ -5,7 +5,6 @@ $.extend(hub.client, {
         $("#s").text(specs);
         $("#cL").text(cpuLoad);
         $("#cF").text(cpuFreq);
-        $("#cT").text(cpuTemp);
         $("#r").text(ram);
     }
 });

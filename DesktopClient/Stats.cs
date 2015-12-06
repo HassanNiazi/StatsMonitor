@@ -7,17 +7,15 @@
 
         }
 
-        public Stats(int cpuLoad, int cpuFreq, int cpuTemp, int ram)
+        public Stats(int cpuLoad, int cpuFreq,  int ram)
         {
             CpuLoad = cpuLoad;
             CpuFreq = cpuFreq;
-            CpuTemp = cpuTemp;
             Ram = ram;
         }
 
         public int CpuLoad { get; private set; }
         public int CpuFreq { get; private set; }
-        public int CpuTemp { get; private set; }
         public int Ram { get; private set; }
 
     }
