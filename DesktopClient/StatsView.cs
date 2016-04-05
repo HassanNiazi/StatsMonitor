@@ -99,7 +99,7 @@ namespace DesktopClient
             {
                _hubProxy.Invoke("reportStats", Specs ,_cpu, _ram);
             }
-            else if (_retries-- != 0 && _connectionTask.IsCompleted)
+            else if (_connectionTask.IsCompleted && _retries-- != 0)
             {
                 _connectionTask = Connect();
             }
