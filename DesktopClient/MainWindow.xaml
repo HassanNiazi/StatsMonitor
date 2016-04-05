@@ -17,7 +17,6 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <TextBlock.Foreground>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -26,9 +25,8 @@
             </LinearGradientBrush>
         </TextBlock.Foreground>
         
-        <TextBlock Grid.Row="0" Grid.ColumnSpan="4" Text="{Binding Specs}" FontWeight="Bold" FontSize="18.667" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding CurrentStats.CpuLoad ,StringFormat={}{0}%}" FontWeight="Bold" FontSize="18.667" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding CurrentStats.CpuFreq ,StringFormat={}{0}MHz}" FontWeight="Bold" FontSize="18.667" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <TextBlock Grid.Column="2" Grid.Row="1" Text="{Binding CurrentStats.Ram ,StringFormat={}{0}%}" FontWeight="Bold" FontSize="18.667" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Specs}" FontWeight="Bold" FontSize="18.667" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding Cpu ,StringFormat={}{0}%}" FontWeight="Bold" FontSize="18.667" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Ram ,StringFormat={}{0}%}" FontWeight="Bold" FontSize="18.667" HorizontalAlignment="Center" VerticalAlignment="Center"/>
     </Grid>
 </Window>

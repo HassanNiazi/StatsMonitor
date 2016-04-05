@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Configuration;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Threading;
 using DesktopClient.Annotations;
 using Microsoft.AspNet.SignalR.Client;
@@ -16,7 +17,6 @@ namespace DesktopClient
 
         private readonly PerformanceCounter _perfCountCpuLoad = new PerformanceCounter("Processor Information", "% Processor Time", "_Total");
         private readonly PerformanceCounter _perfCountSysMem = new PerformanceCounter("Memory", "% Committed Bytes In Use");
-        private readonly PerformanceCounter _perfCountFreq = new PerformanceCounter("Processor Information", "Processor Frequency", "_Total");
 
         private readonly DispatcherTimer _dispatcherTimer = new DispatcherTimer();
 
@@ -26,22 +26,31 @@ namespace DesktopClient
         private readonly IHubProxy _hubProxy;
 
         private bool _connected;
+        private Task _connectionTask;
 
-
-        private Stats _stats = new Stats();
-
-        public Stats CurrentStats
+        private int _cpu;
+        public int Cpu
         {
-            get { return _stats; }
+            get { return _cpu; }
             set
             {
-                _stats = value;
+                _cpu = value;
                OnPropertyChanged();
             }
         }
 
-        private string _specs;
+        private int _ram;
+        public int Ram
+        {
+            get { return _ram; }
+            set
+            {
+                _ram = value;
+                OnPropertyChanged();
+            }
+        }
 
+        private string _specs;
         public string Specs
         {
             get { return _specs; }
@@ -62,10 +71,12 @@ namespace DesktopClient
 
             _hubConnection = new HubConnection(_serverPath);
             _hubProxy = _hubConnection.CreateHubProxy("statsReportHub");
-            Connect();
+
+            _connectionTask = Connect();
+            
         }
 
-        public async void Connect()
+        public async Task Connect()
         {
             try
             {
@@ -80,16 +91,17 @@ namespace DesktopClient
 
         private void _dispatcherTimer_Tick(object sender, EventArgs e)
         {
-            var stats = new Stats((int)_perfCountCpuLoad.NextValue(), (int)_perfCountFreq.NextValue(),  (int)_perfCountSysMem.NextValue());
-            CurrentStats = stats;
+            Cpu = (int) _perfCountCpuLoad.NextValue();
+            Ram = (int) _perfCountSysMem.NextValue();
             _dispatcherTimer.Start();
+
             if (_connected)
             {
-                _hubProxy.Invoke("reportStats", Specs ,stats.CpuLoad, stats.CpuFreq, stats.Ram);
+               _hubProxy.Invoke("reportStats", Specs ,_cpu, _ram);
             }
-            else if (_retries-- != 0)
+            else if (_retries-- != 0 && _connectionTask.IsCompleted)
             {
-                Connect();
+                _connectionTask = Connect();
             }
         }
 
